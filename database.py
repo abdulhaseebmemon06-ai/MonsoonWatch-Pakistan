@@ -1,10 +1,15 @@
 
+import os
+from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
-DATABASE_URL = f"sqlite:///{BASE_DIR / 'monsoonwatch.db'}"
+
+if os.getenv("VERCEL"):
+    DATABASE_URL = "sqlite:////tmp/monsoonwatch.db"
+else:
+    DATABASE_URL = f"sqlite:///{BASE_DIR / 'monsoonwatch.db'}"
 
 engine = create_engine(
     DATABASE_URL,
