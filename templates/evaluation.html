@@ -1,0 +1,713 @@
+
+{% extends "base.html" %}
+
+{% block title %}Model Evaluation | MonsoonWatch Pakistan{% endblock %}
+{% block page_heading %}Model Evaluation{% endblock %}
+
+{% block content %}
+
+<style>
+/* ================================
+   MODEL EVALUATION PAGE
+================================ */
+
+.eval-page {
+    color: #e5eaf2;
+    padding-bottom: 30px;
+}
+
+.eval-hero {
+    background: linear-gradient(120deg, #102b3b, #123d46 65%, #11665f);
+    border: 1px solid rgba(45, 212, 191, .18);
+    border-radius: 18px;
+    padding: 30px;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.eval-hero::after {
+    content: "↗";
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 115px;
+    color: rgba(255,255,255,.06);
+    font-weight: 800;
+}
+
+.eval-eyebrow {
+    color: #5eead4;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.eval-hero h1 {
+    color: #ffffff;
+    font-size: 29px;
+    margin: 0 0 10px;
+}
+
+.eval-hero p {
+    color: #c4d5df;
+    max-width: 650px;
+    line-height: 1.7;
+    margin: 0;
+    font-size: 14px;
+}
+
+.eval-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    background: rgba(20, 184, 166, .13);
+    border: 1px solid rgba(94, 234, 212, .25);
+    color: #99f6e4;
+    padding: 8px 13px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.eval-status span {
+    height: 7px;
+    width: 7px;
+    border-radius: 50%;
+    background: #2dd4bf;
+}
+
+.eval-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin: 28px 0 15px;
+}
+
+.eval-section-heading h2 {
+    color: #f1f5f9;
+    font-size: 18px;
+    margin: 0;
+}
+
+.eval-section-heading p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 5px 0 0;
+}
+
+.eval-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.eval-metric {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 0;
+    transition: transform .2s, border-color .2s;
+}
+
+.eval-metric:hover {
+    transform: translateY(-3px);
+    border-color: #2dd4bf;
+}
+
+.eval-metric-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 19px;
+}
+
+.eval-icon {
+    height: 38px;
+    width: 38px;
+    display: grid;
+    place-items: center;
+    background: rgba(20,184,166,.12);
+    color: #5eead4;
+    border-radius: 11px;
+    font-size: 19px;
+}
+
+.eval-metric-label {
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.eval-metric h3 {
+    color: #f8fafc;
+    font-size: 25px;
+    margin: 7px 0;
+    font-weight: 700;
+}
+
+.eval-metric small {
+    color: #71849b;
+    font-size: 11px;
+}
+
+.eval-panel {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 16px;
+    padding: 23px;
+    margin-top: 20px;
+    min-width: 0;
+}
+
+.eval-panel h2 {
+    color: #f1f5f9;
+    font-size: 17px;
+    margin: 0 0 7px;
+}
+
+.eval-subtitle {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.eval-chart-grid {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 18px;
+    align-items: stretch;
+}
+
+.eval-chart-area {
+    height: 290px;
+    position: relative;
+    width: 100%;
+}
+
+.eval-table-wrap {
+    overflow-x: auto;
+}
+
+.eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 520px;
+    font-size: 12px;
+}
+
+.eval-table th {
+    text-align: left;
+    color: #94a3b8;
+    background: #192a3d;
+    padding: 14px 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.eval-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #26374b;
+    color: #dbe5ef;
+}
+
+.eval-table tr:last-child td {
+    border-bottom: none;
+}
+
+.eval-table tr.best-model td {
+    background: rgba(20,184,166,.07);
+}
+
+.eval-model-tag {
+    display: inline-block;
+    background: rgba(20,184,166,.13);
+    color: #5eead4;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.eval-heavy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.eval-heavy-item {
+    background: #192a3d;
+    border: 1px solid #2a4056;
+    padding: 17px;
+    border-radius: 12px;
+}
+
+.eval-heavy-item span {
+    display: block;
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.eval-heavy-item strong {
+    display: block;
+    color: #f8fafc;
+    font-size: 21px;
+    margin-top: 10px;
+}
+
+.eval-warning {
+    display: flex;
+    gap: 14px;
+    background: rgba(245,158,11,.08);
+    border: 1px solid rgba(245,158,11,.25);
+    border-radius: 13px;
+    padding: 18px;
+    margin-top: 17px;
+}
+
+.eval-warning-icon {
+    color: #fbbf24;
+    font-size: 23px;
+}
+
+.eval-warning h3 {
+    color: #fcd34d;
+    font-size: 14px;
+    margin: 0 0 7px;
+}
+
+.eval-warning p {
+    color: #cbd5e1;
+    font-size: 12px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.eval-insight {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.eval-insight-card {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 15px;
+    padding: 21px;
+}
+
+.eval-insight-card h3 {
+    color: #f1f5f9;
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+.eval-insight-card p {
+    color: #a8b6c8;
+    font-size: 12px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.eval-limitations {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.eval-limit {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: #192a3d;
+    padding: 14px;
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.eval-limit span {
+    color: #fbbf24;
+    font-size: 15px;
+}
+
+.eval-footer {
+    text-align: center;
+    color: #71849b;
+    font-size: 11px;
+    margin-top: 25px;
+}
+
+/* Responsive layout */
+
+@media (max-width: 1050px) {
+    .eval-metrics,
+    .eval-heavy-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .eval-chart-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .eval-hero {
+        padding: 22px;
+    }
+
+    .eval-hero h1 {
+        font-size: 23px;
+    }
+
+    .eval-metrics,
+    .eval-heavy-grid,
+    .eval-insight,
+    .eval-limitations {
+        grid-template-columns: 1fr;
+    }
+
+    .eval-panel {
+        padding: 16px;
+    }
+
+    .eval-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+</style>
+
+<div class="eval-page">
+
+    <!-- HERO -->
+    <section class="eval-hero">
+        <div class="eval-eyebrow">Machine Learning Analytics</div>
+        <h1>Model Performance Overview</h1>
+        <p>
+            Evaluate the performance of the Random Forest V2 rainfall
+            prediction model through statistical metrics, baseline
+            comparison, and heavy-rainfall analysis.
+        </p>
+        <div class="eval-status">
+            <span></span>
+            RANDOM FOREST V2 EVALUATION
+        </div>
+    </section>
+
+    <!-- METRICS -->
+    <div class="eval-section-heading">
+        <div>
+            <h2>Key Performance Metrics</h2>
+            <p>Results measured on unseen test data</p>
+        </div>
+    </div>
+
+    <div class="eval-metrics">
+
+        <div class="eval-metric">
+            <div class="eval-metric-top">
+                <span class="eval-metric-label">Mean Absolute Error</span>
+                <div class="eval-icon">⌁</div>
+            </div>
+            <h3>{{ "%.4f"|format(mae) }} <small>mm</small></h3>
+            <small>Average absolute prediction error</small>
+        </div>
+
+        <div class="eval-metric">
+            <div class="eval-metric-top">
+                <span class="eval-metric-label">Root Mean Squared Error</span>
+                <div class="eval-icon">∑</div>
+            </div>
+            <h3>{{ "%.4f"|format(rmse) }} <small>mm</small></h3>
+            <small>Penalizes larger prediction errors</small>
+        </div>
+
+        <div class="eval-metric">
+            <div class="eval-metric-top">
+                <span class="eval-metric-label">R² Score</span>
+                <div class="eval-icon">%</div>
+            </div>
+            <h3>{{ "%.4f"|format(r2) }}</h3>
+            <small>Coefficient of determination</small>
+        </div>
+
+        <div class="eval-metric">
+            <div class="eval-metric-top">
+                <span class="eval-metric-label">Test Data Samples</span>
+                <div class="eval-icon">▦</div>
+            </div>
+            <h3>{{ "{:,}".format(test_samples) }}</h3>
+            <small>Historical observations evaluated</small>
+        </div>
+
+    </div>
+
+    <!-- MODEL COMPARISON -->
+    <div class="eval-section-heading">
+        <div>
+            <h2>Model Comparison</h2>
+            <p>Random Forest V2 compared with the Mean Baseline</p>
+        </div>
+    </div>
+
+    <div class="eval-chart-grid">
+
+        <div class="eval-panel">
+            <h2>Error Metrics Comparison</h2>
+            <p class="eval-subtitle">
+                Lower MAE and RMSE values indicate smaller prediction errors.
+            </p>
+            <div class="eval-chart-area">
+                <canvas id="modelComparisonChart"></canvas>
+            </div>
+        </div>
+
+        <div class="eval-panel">
+            <h2>Evaluation Results</h2>
+            <p class="eval-subtitle">
+                Detailed performance metrics for both models.
+            </p>
+
+            <div class="eval-table-wrap">
+                <table class="eval-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>MAE</th>
+                            <th>RMSE</th>
+                            <th>R²</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in evaluation_data %}
+                        <tr class="{% if 'Random Forest' in item.model %}best-model{% endif %}">
+                            <td>
+                                {% if 'Random Forest' in item.model %}
+                                    <span class="eval-model-tag">{{ item.model }}</span>
+                                {% else %}
+                                    {{ item.model }}
+                                {% endif %}
+                            </td>
+                            <td>{{ "%.4f"|format(item.mae) }}</td>
+                            <td>{{ "%.4f"|format(item.rmse) }}</td>
+                            <td>{{ "%.4f"|format(item.r2) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HEAVY RAIN ANALYSIS -->
+    <div class="eval-section-heading">
+        <div>
+            <h2>Heavy Rainfall Analysis</h2>
+            <p>Model performance on observations with rainfall ≥ 15 mm</p>
+        </div>
+    </div>
+
+    <div class="eval-panel">
+        <div class="eval-heavy-grid">
+
+            <div class="eval-heavy-item">
+                <span>Heavy Rainfall Test Samples</span>
+                <strong>{{ "{:,}".format(heavy_rain_samples) }}</strong>
+            </div>
+
+            <div class="eval-heavy-item">
+                <span>Heavy Rainfall MAE</span>
+                <strong>{{ "%.3f"|format(heavy_rain_mae) }} mm</strong>
+            </div>
+
+            <div class="eval-heavy-item">
+                <span>Actual Average Rainfall</span>
+                <strong>{{ "%.3f"|format(heavy_actual_mean) }} mm</strong>
+            </div>
+
+            <div class="eval-heavy-item">
+                <span>Predicted Average Rainfall</span>
+                <strong>{{ "%.3f"|format(heavy_predicted_mean) }} mm</strong>
+            </div>
+
+        </div>
+
+        <div class="eval-warning">
+            <div class="eval-warning-icon">⚠</div>
+            <div>
+                <h3>Heavy Rainfall Underprediction</h3>
+                <p>
+                    The model substantially underestimates heavy rainfall.
+                    Actual average rainfall was
+                    {{ "%.3f"|format(heavy_actual_mean) }} mm, while
+                    predicted average rainfall was
+                    {{ "%.3f"|format(heavy_predicted_mean) }} mm.
+                    This is an important limitation that needs improvement
+                    in future model development.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="eval-section-heading">
+        <div>
+            <h2>Evaluation Insights</h2>
+            <p>What the evaluation results tell us</p>
+        </div>
+    </div>
+
+    <div class="eval-insight">
+
+        <div class="eval-insight-card">
+            <h3>✓ Improvement Over Baseline</h3>
+            <p>
+                Random Forest V2 achieved lower MAE and RMSE values
+                and a higher R² score than the Mean Baseline.
+                This shows an improvement over the baseline model
+                on the test dataset.
+            </p>
+        </div>
+
+        <div class="eval-insight-card">
+            <h3>! Scope for Improvement</h3>
+            <p>
+                The R² score of {{ "%.4f"|format(r2) }} indicates
+                limited explanatory performance. Heavy rainfall
+                predictions also show substantial underestimation.
+                Further model improvement is needed.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- LIMITATIONS -->
+    <div class="eval-section-heading">
+        <div>
+            <h2>Model Limitations</h2>
+            <p>Important considerations when interpreting predictions</p>
+        </div>
+    </div>
+
+    <div class="eval-panel">
+        <div class="eval-limitations">
+            <div class="eval-limit">
+                <span>●</span>
+                <div>Limited overall predictive performance.</div>
+            </div>
+
+            <div class="eval-limit">
+                <span>●</span>
+                <div>Heavy rainfall events are significantly underestimated.</div>
+            </div>
+
+            <div class="eval-limit">
+                <span>●</span>
+                <div>The model predicts rainfall amounts, not actual flood events.</div>
+            </div>
+
+            <div class="eval-limit">
+                <span>●</span>
+                <div>Live weather observations are not currently connected.</div>
+            </div>
+
+            <div class="eval-limit">
+                <span>●</span>
+                <div>Historical dataset ends on 30 June 2026.</div>
+            </div>
+
+            <div class="eval-limit">
+                <span>●</span>
+                <div>Predictions should not be treated as official weather or flood warnings.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="eval-footer">
+        MonsoonWatch Pakistan · Random Forest V2 · Historical Test Evaluation
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const evaluationData = {{ evaluation_data | tojson }};
+
+const chartCanvas = document.getElementById("modelComparisonChart");
+
+if (chartCanvas && typeof Chart !== "undefined") {
+    new Chart(chartCanvas, {
+        type: "bar",
+        data: {
+            labels: evaluationData.map(item => item.model),
+            datasets: [
+                {
+                    label: "MAE (mm)",
+                    data: evaluationData.map(item => item.mae),
+                    backgroundColor: "#2dd4bf",
+                    borderRadius: 6,
+                    maxBarThickness: 35
+                },
+                {
+                    label: "RMSE (mm)",
+                    data: evaluationData.map(item => item.rmse),
+                    backgroundColor: "#64748b",
+                    borderRadius: 6,
+                    maxBarThickness: 35
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#cbd5e1",
+                        usePointStyle: true,
+                        padding: 18
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: "#94a3b8"
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: "#94a3b8"
+                    },
+                    grid: {
+                        color: "rgba(148,163,184,.12)"
+                    },
+                    title: {
+                        display: true,
+                        text: "Error in millimeters",
+                        color: "#94a3b8"
+                    }
+                }
+            }
+        }
+    });
+}
+</script>
+
+{% endblock %}

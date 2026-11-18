@@ -1,0 +1,516 @@
+
+{% extends "base.html" %}
+
+{% block title %}Rainfall Prediction | MonsoonWatch Pakistan{% endblock %}
+{% block page_heading %}Rainfall Prediction{% endblock %}
+
+{% block content %}
+
+<div class="welcome-section">
+    <span class="welcome-label">MACHINE LEARNING PREDICTION</span>
+    <h1>Next-Day Rainfall Prediction</h1>
+    <p>
+        Enter weather observations and previous rainfall records
+        to estimate rainfall for the following day.
+    </p>
+</div>
+
+{% if error %}
+<div class="prediction-error">
+    <strong>Prediction Error</strong>
+    <p>{{ error }}</p>
+</div>
+{% endif %}
+
+
+<!-- ==========================================
+     PREDICTION RESULT DASHBOARD
+=========================================== -->
+
+{% if result %}
+
+<div class="prediction-result">
+
+    <div class="result-main">
+
+        <span class="result-label">PREDICTED NEXT-DAY RAINFALL</span>
+
+        <h2>
+            {{ result.predicted_rainfall_mm }}
+            <small>mm</small>
+        </h2>
+
+        <p class="result-location">
+            {{ result.location|replace("_", " ") }},
+            {{ result.province }}
+        </p>
+
+        <span class="rainfall-category severity-{{ result.severity }}">
+            {{ result.rainfall_category }}
+        </span>
+
+    </div>
+
+    <div class="result-details">
+
+        <div>
+            <span>Observation Date</span>
+            <strong>{{ result.observation_date }}</strong>
+        </div>
+
+        <div>
+            <span>Prediction Date</span>
+            <strong>{{ result.prediction_date }}</strong>
+        </div>
+
+        <div>
+            <span>Machine Learning Model</span>
+            <strong>Random Forest V2</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- WEATHER INTERPRETATION -->
+
+<div class="interpretation-card">
+
+    <div class="interpretation-icon">☁</div>
+
+    <div>
+        <h3>Weather Interpretation</h3>
+        <p>{{ result.interpretation }}</p>
+    </div>
+
+</div>
+
+
+<!-- WEATHER CONDITIONS SUMMARY -->
+
+<div class="prediction-panel result-summary-panel">
+
+    <div class="prediction-panel-heading">
+        <h2>Weather Conditions Summary</h2>
+        <p>Weather observations used by the prediction model.</p>
+    </div>
+
+    <div class="result-summary-grid">
+
+        <div class="summary-item">
+            <span>Temperature</span>
+            <strong>{{ result.temperature_c }} °C</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Maximum Temperature</span>
+            <strong>{{ result.max_temperature_c }} °C</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Minimum Temperature</span>
+            <strong>{{ result.min_temperature_c }} °C</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Relative Humidity</span>
+            <strong>{{ result.humidity }}%</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Wind Speed</span>
+            <strong>{{ result.wind_speed_mps }} m/s</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Current Rainfall</span>
+            <strong>{{ result.current_rainfall_mm }} mm</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PREVIOUS RAINFALL HISTORY -->
+
+<div class="prediction-panel result-summary-panel">
+
+    <div class="prediction-panel-heading">
+        <h2>Previous Rainfall History</h2>
+        <p>Historical rainfall measurements provided to the model.</p>
+    </div>
+
+    <div class="result-summary-grid">
+
+        <div class="summary-item">
+            <span>Previous Day</span>
+            <strong>{{ result.previous_day_rainfall_mm }} mm</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Previous 3 Days Total</span>
+            <strong>{{ result.previous_3_days_mm }} mm</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Previous 7 Days Total</span>
+            <strong>{{ result.previous_7_days_mm }} mm</strong>
+        </div>
+
+        <div class="summary-item">
+            <span>Previous 7 Days Average</span>
+            <strong>{{ result.previous_7_day_average_mm }} mm</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODEL INFORMATION AND DISCLAIMER -->
+
+<div class="prediction-notice">
+
+    <strong>Prediction Information</strong>
+
+    <p>
+        Model: {{ result.model_version }}
+    </p>
+
+    <p>
+        {{ result.notice }}
+    </p>
+
+    <p>
+        Rainfall categories are illustrative project classifications.
+        They do not represent official weather alerts or flood-risk levels.
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<!-- ==========================================
+     WEATHER INPUT FORM
+=========================================== -->
+
+<div class="prediction-panel">
+
+    <div class="prediction-panel-heading">
+        <h2>Weather Information</h2>
+        <p>Provide the observation date and location details.</p>
+    </div>
+
+    <form action="/prediction" method="POST" class="prediction-form">
+
+        <!-- LOCATION AND DATE -->
+
+        <div class="prediction-section">
+
+            <h3><span>01</span> Location and Date</h3>
+
+            <div class="prediction-grid">
+
+                <div class="form-group">
+                    <label for="observation_date">Observation Date</label>
+
+                    <input
+                        type="date"
+                        id="observation_date"
+                        name="observation_date"
+                        value="{{ request_date if request_date else '2026-06-30' }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="province">Province</label>
+
+                    <select id="province" name="province" required>
+                        <option value="">Select Province</option>
+
+                        {% for item in provinces %}
+                        <option value="{{ item }}"
+                            {% if selected_province == item %}selected{% endif %}>
+                            {{ item }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+
+                    <select id="location" name="location" required>
+                        <option value="">Select Location</option>
+
+                        {% for item in locations %}
+                        <option value="{{ item }}"
+                            {% if selected_location == item %}selected{% endif %}>
+                            {{ item|replace("_", " ") }}
+                        </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- WEATHER CONDITIONS -->
+
+        <div class="prediction-section">
+
+            <h3><span>02</span> Weather Conditions</h3>
+
+            <div class="prediction-grid">
+
+                <div class="form-group">
+                    <label for="rainfall_mm">Current Rainfall (mm)</label>
+                    <input
+                        type="number"
+                        id="rainfall_mm"
+                        name="rainfall_mm"
+                        min="0"
+                        step="any"
+                        placeholder="e.g. 5"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="temperature_c">Temperature (°C)</label>
+                    <input
+                        type="number"
+                        id="temperature_c"
+                        name="temperature_c"
+                        step="any"
+                        placeholder="e.g. 32"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="max_temperature_c">Maximum Temperature (°C)</label>
+                    <input
+                        type="number"
+                        id="max_temperature_c"
+                        name="max_temperature_c"
+                        step="any"
+                        placeholder="e.g. 38"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="min_temperature_c">Minimum Temperature (°C)</label>
+                    <input
+                        type="number"
+                        id="min_temperature_c"
+                        name="min_temperature_c"
+                        step="any"
+                        placeholder="e.g. 27"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="relative_humidity_percent">Relative Humidity (%)</label>
+                    <input
+                        type="number"
+                        id="relative_humidity_percent"
+                        name="relative_humidity_percent"
+                        min="0"
+                        max="100"
+                        step="any"
+                        placeholder="e.g. 65"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="wind_speed_mps">Wind Speed (m/s)</label>
+                    <input
+                        type="number"
+                        id="wind_speed_mps"
+                        name="wind_speed_mps"
+                        min="0"
+                        step="any"
+                        placeholder="e.g. 3"
+                        required
+                    >
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- PREVIOUS RAINFALL -->
+
+        <div class="prediction-section">
+
+            <h3><span>03</span> Previous Rainfall History</h3>
+
+            <p class="section-description">
+                Enter rainfall measurements from the days before the observation date.
+            </p>
+
+            <div class="prediction-grid">
+
+                <div class="form-group">
+                    <label for="rainfall_previous_day_mm">
+                        Previous Day Rainfall (mm)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rainfall_previous_day_mm"
+                        name="rainfall_previous_day_mm"
+                        min="0"
+                        step="any"
+                        placeholder="e.g. 2"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="rainfall_previous_3_days_mm">
+                        Previous 3 Days Total (mm)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rainfall_previous_3_days_mm"
+                        name="rainfall_previous_3_days_mm"
+                        min="0"
+                        step="any"
+                        placeholder="e.g. 8"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="rainfall_previous_7_days_mm">
+                        Previous 7 Days Total (mm)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rainfall_previous_7_days_mm"
+                        name="rainfall_previous_7_days_mm"
+                        min="0"
+                        step="any"
+                        placeholder="e.g. 15"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="rainfall_previous_7_day_average_mm">
+                        Previous 7 Days Average (mm)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="rainfall_previous_7_day_average_mm"
+                        name="rainfall_previous_7_day_average_mm"
+                        min="0"
+                        step="any"
+                        placeholder="e.g. 2.14"
+                        required
+                    >
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- DISCLAIMER -->
+
+        <div class="prediction-notice">
+            <strong>Academic Prototype Notice</strong>
+
+            <p>
+                Predictions depend on the accuracy of manually entered
+                weather observations. This application is not an official
+                weather forecasting or flood-warning service.
+            </p>
+        </div>
+
+        <button type="submit" class="prediction-button">
+            Generate Rainfall Prediction →
+        </button>
+
+    </form>
+</div>
+
+
+<!-- ==========================================
+     DYNAMIC LOCATION DROPDOWN
+=========================================== -->
+
+<script>
+
+const provinceSelect = document.getElementById("province");
+const locationSelect = document.getElementById("location");
+
+provinceSelect.addEventListener("change", async function () {
+
+    const province = this.value;
+
+    locationSelect.innerHTML =
+        '<option value="">Loading locations...</option>';
+
+    if (!province) {
+
+        locationSelect.innerHTML =
+            '<option value="">Select Location</option>';
+
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/api/locations/${encodeURIComponent(province)}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || data.error) {
+            throw new Error("Could not load locations.");
+        }
+
+        locationSelect.innerHTML =
+            '<option value="">Select Location</option>';
+
+        data.locations.forEach(function (location) {
+
+            const option = document.createElement("option");
+
+            option.value = location;
+            option.textContent = location.replaceAll("_", " ");
+
+            locationSelect.appendChild(option);
+
+        });
+
+    } catch (error) {
+
+        locationSelect.innerHTML =
+            '<option value="">Unable to load locations</option>';
+
+        console.error(error);
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

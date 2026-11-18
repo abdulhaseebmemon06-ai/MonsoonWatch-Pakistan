@@ -1,0 +1,809 @@
+
+{% extends "base.html" %}
+
+{% block title %}Historical Analysis | MonsoonWatch Pakistan{% endblock %}
+{% block page_heading %}Historical Rainfall Analysis{% endblock %}
+
+{% block content %}
+
+<style>
+/* =========================================
+   HISTORICAL RAINFALL ANALYSIS
+========================================= */
+
+.historical-page {
+    color: #e5eaf2;
+    padding-bottom: 30px;
+}
+
+/* HERO HEADER */
+
+.historical-hero {
+    background: linear-gradient(120deg, #102b3b, #123d46 65%, #11665f);
+    border: 1px solid rgba(45, 212, 191, .18);
+    border-radius: 18px;
+    padding: 30px;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.historical-hero::after {
+    content: "◷";
+    position: absolute;
+    right: 35px;
+    top: 0;
+    font-size: 125px;
+    color: rgba(255,255,255,.06);
+    font-weight: 800;
+}
+
+.historical-eyebrow {
+    color: #5eead4;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.historical-hero h1 {
+    color: #ffffff;
+    font-size: 29px;
+    margin: 0 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.historical-hero p {
+    color: #c4d5df;
+    max-width: 650px;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.historical-period {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 19px;
+    padding: 8px 13px;
+    border-radius: 30px;
+    background: rgba(20,184,166,.13);
+    border: 1px solid rgba(94,234,212,.25);
+    color: #99f6e4;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* SECTION HEADINGS */
+
+.history-section-heading {
+    margin: 27px 0 15px;
+}
+
+.history-section-heading h2 {
+    color: #f1f5f9;
+    font-size: 18px;
+    margin: 0 0 6px;
+}
+
+.history-section-heading p {
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 0;
+}
+
+/* STATISTICS */
+
+.history-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.history-stat {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 0;
+    transition: transform .2s ease, border-color .2s ease;
+}
+
+.history-stat:hover {
+    transform: translateY(-3px);
+    border-color: #2dd4bf;
+}
+
+.history-stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 17px;
+}
+
+.history-stat-label {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.history-stat-icon {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    background: rgba(20,184,166,.12);
+    color: #5eead4;
+    border-radius: 11px;
+    font-size: 18px;
+}
+
+.history-stat h3 {
+    color: #f8fafc;
+    font-size: 25px;
+    margin: 0 0 8px;
+    overflow-wrap: anywhere;
+}
+
+.history-stat small {
+    color: #71849b;
+    font-size: 11px;
+}
+
+/* CHART PANELS */
+
+.history-panel {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 16px;
+    padding: 23px;
+    margin-bottom: 18px;
+    min-width: 0;
+    transition: border-color .2s ease;
+}
+
+.history-panel:hover {
+    border-color: #36536a;
+}
+
+.history-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.history-panel-header h2 {
+    color: #f1f5f9;
+    font-size: 17px;
+    margin: 0 0 7px;
+}
+
+.history-panel-header p {
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.history-chart-tag {
+    background: rgba(20,184,166,.12);
+    color: #5eead4;
+    border: 1px solid rgba(45,212,191,.2);
+    border-radius: 20px;
+    padding: 6px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.history-chart {
+    width: 100%;
+    height: 350px;
+    position: relative;
+}
+
+.history-chart.province-chart {
+    height: 320px;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+/* DATASET INFORMATION */
+
+.history-dataset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.history-dataset-item {
+    background: #192a3d;
+    border: 1px solid #2a4056;
+    padding: 15px;
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.history-dataset-item span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.history-dataset-item strong {
+    color: #e2e8f0;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+/* DATA NOTICE */
+
+.history-notice {
+    display: flex;
+    gap: 13px;
+    align-items: flex-start;
+    background: rgba(245,158,11,.08);
+    border: 1px solid rgba(245,158,11,.25);
+    border-radius: 12px;
+    padding: 17px;
+    margin-top: 20px;
+}
+
+.history-notice-icon {
+    color: #fbbf24;
+    font-size: 21px;
+}
+
+.history-notice h3 {
+    color: #fcd34d;
+    font-size: 13px;
+    margin: 0 0 6px;
+}
+
+.history-notice p {
+    color: #cbd5e1;
+    font-size: 12px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+.history-footer {
+    text-align: center;
+    color: #71849b;
+    font-size: 11px;
+    margin-top: 25px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 1050px) {
+    .history-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 650px) {
+    .historical-hero {
+        padding: 22px;
+    }
+
+    .historical-hero h1 {
+        font-size: 23px;
+    }
+
+    .history-panel {
+        padding: 16px;
+    }
+
+    .history-stats {
+        gap: 10px;
+    }
+
+    .history-stat {
+        padding: 15px;
+    }
+
+    .history-stat h3 {
+        font-size: 20px;
+    }
+
+    .history-chart {
+        height: 280px;
+    }
+
+    .history-chart.province-chart {
+        height: 270px;
+    }
+
+    .history-dataset-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .history-panel-header {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 380px) {
+    .history-stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+<div class="historical-page">
+
+    <!-- HERO HEADER -->
+
+    <section class="historical-hero">
+        <div class="historical-eyebrow">Historical Weather Analytics</div>
+
+        <h1>Historical Rainfall Analysis</h1>
+
+        <p>
+            Explore historical rainfall patterns, seasonal variations,
+            yearly trends, and weather-location distribution across Pakistan
+            using long-term historical observations.
+        </p>
+
+        <div class="historical-period">
+            <span>◷</span>
+            HISTORICAL PERIOD: 1981 – 2026
+        </div>
+    </section>
+
+
+    <!-- DATASET STATISTICS -->
+
+    <div class="history-section-heading">
+        <h2>Dataset Overview</h2>
+        <p>A summary of the historical weather dataset.</p>
+    </div>
+
+    <div class="history-stats">
+
+        <div class="history-stat">
+            <div class="history-stat-top">
+                <span class="history-stat-label">Total Records</span>
+                <div class="history-stat-icon">▤</div>
+            </div>
+            <h3>{{ "{:,}".format(total_records) }}</h3>
+            <small>Daily weather observations</small>
+        </div>
+
+        <div class="history-stat">
+            <div class="history-stat-top">
+                <span class="history-stat-label">Weather Locations</span>
+                <div class="history-stat-icon">⌖</div>
+            </div>
+            <h3>{{ total_locations }}</h3>
+            <small>Across Pakistan</small>
+        </div>
+
+        <div class="history-stat">
+            <div class="history-stat-top">
+                <span class="history-stat-label">Provinces</span>
+                <div class="history-stat-icon">◈</div>
+            </div>
+            <h3>{{ total_provinces }}</h3>
+            <small>Included in dataset</small>
+        </div>
+
+        <div class="history-stat">
+            <div class="history-stat-top">
+                <span class="history-stat-label">Historical Period</span>
+                <div class="history-stat-icon">◷</div>
+            </div>
+            <h3>45 Years</h3>
+            <small>{{ start_date }} – {{ end_date }}</small>
+        </div>
+
+    </div>
+
+
+    <!-- MONTHLY RAINFALL -->
+
+    <div class="history-section-heading">
+        <h2>Rainfall Trends & Distribution</h2>
+        <p>Explore monthly, yearly, and province-wise historical patterns.</p>
+    </div>
+
+    <div class="history-panel">
+
+        <div class="history-panel-header">
+            <div>
+                <h2>Monthly Average Rainfall</h2>
+                <p>Average daily rainfall for each month, measured in millimetres.</p>
+            </div>
+
+            <span class="history-chart-tag">MONTHLY ANALYSIS</span>
+        </div>
+
+        <div class="history-chart">
+            <canvas id="monthlyChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- YEARLY RAINFALL -->
+
+    <div class="history-panel">
+
+        <div class="history-panel-header">
+            <div>
+                <h2>Yearly Rainfall Trends</h2>
+                <p>Total recorded rainfall per year across all locations.</p>
+            </div>
+
+            <span class="history-chart-tag">YEARLY ANALYSIS</span>
+        </div>
+
+        <div class="history-chart">
+            <canvas id="yearlyChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- PROVINCE DISTRIBUTION -->
+
+    <div class="history-panel">
+
+        <div class="history-panel-header">
+            <div>
+                <h2>Province-wise Location Distribution</h2>
+                <p>Number of unique weather locations included in each province.</p>
+            </div>
+
+            <span class="history-chart-tag">LOCATION ANALYSIS</span>
+        </div>
+
+        <div class="history-chart province-chart">
+            <canvas id="provinceChart"></canvas>
+        </div>
+
+    </div>
+
+
+    <!-- DATASET INFORMATION -->
+
+    <div class="history-section-heading">
+        <h2>Dataset Information</h2>
+        <p>Details about the historical weather data used in this project.</p>
+    </div>
+
+    <div class="history-panel">
+
+        <div class="history-panel-header">
+            <div>
+                <h2>Dataset Details</h2>
+                <p>Source data coverage and measurement information.</p>
+            </div>
+
+            <span class="history-chart-tag">DATASET PROFILE</span>
+        </div>
+
+        <div class="history-dataset-grid">
+
+            <div class="history-dataset-item">
+                <span>Dataset Name</span>
+                <strong>Pakistan Daily Historical Weather Dataset</strong>
+            </div>
+
+            <div class="history-dataset-item">
+                <span>Start Date</span>
+                <strong>{{ start_date }}</strong>
+            </div>
+
+            <div class="history-dataset-item">
+                <span>End Date</span>
+                <strong>{{ end_date }}</strong>
+            </div>
+
+            <div class="history-dataset-item">
+                <span>Total Observations</span>
+                <strong>{{ "{:,}".format(total_records) }}</strong>
+            </div>
+
+            <div class="history-dataset-item">
+                <span>Weather Locations</span>
+                <strong>{{ total_locations }}</strong>
+            </div>
+
+            <div class="history-dataset-item">
+                <span>Provinces</span>
+                <strong>{{ total_provinces }}</strong>
+            </div>
+
+            <div class="history-dataset-item">
+                <span>Rainfall Measurement</span>
+                <strong>Millimetres (mm)</strong>
+            </div>
+
+        </div>
+
+        <div class="history-notice">
+            <div class="history-notice-icon">⚠</div>
+
+            <div>
+                <h3>Important Data Limitation</h3>
+                <p>
+                    This dataset contains historical weather observations
+                    for coordinate-based locations. It does not contain
+                    verified flood event labels. Historical rainfall
+                    analysis should not be interpreted as confirmed
+                    flood records.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="history-footer">
+        MonsoonWatch Pakistan · Historical Weather Data Analysis
+    </div>
+
+</div>
+
+
+<!-- HISTORICAL DATA: PROVIDED BY FASTAPI -->
+
+<script id="historical-chart-data" type="application/json">
+{
+    "monthlyLabels": {{ monthly_labels | tojson }},
+    "monthlyValues": {{ monthly_values | tojson }},
+    "yearlyLabels": {{ yearly_labels | tojson }},
+    "yearlyValues": {{ yearly_values | tojson }},
+    "provinceLabels": {{ province_labels | tojson }},
+    "provinceValues": {{ province_values | tojson }}
+}
+</script>
+
+
+<!-- CHART.JS LIBRARY -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+
+<!-- CHART INITIALIZATION -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const dataElement = document.getElementById("historical-chart-data");
+
+    if (!dataElement) {
+        console.error("Historical chart data element not found.");
+        return;
+    }
+
+    if (typeof Chart === "undefined") {
+        console.error("Chart.js library failed to load.");
+        return;
+    }
+
+    let chartData;
+
+    try {
+        chartData = JSON.parse(dataElement.textContent);
+    } catch (error) {
+        console.error("Unable to read historical chart data:", error);
+        return;
+    }
+
+    const textColor = "#cbd5e1";
+    const gridColor = "rgba(148, 163, 184, 0.12)";
+
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor,
+                    usePointStyle: true,
+                    padding: 18
+                }
+            },
+
+            tooltip: {
+                backgroundColor: "#192a3d",
+                titleColor: "#ffffff",
+                bodyColor: "#cbd5e1",
+                borderColor: "#36536a",
+                borderWidth: 1,
+                padding: 12
+            }
+        },
+
+        scales: {
+            x: {
+                ticks: {
+                    color: textColor
+                },
+                grid: {
+                    color: gridColor
+                }
+            },
+
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: textColor
+                },
+                grid: {
+                    color: gridColor
+                }
+            }
+        }
+    };
+
+
+    // 1. MONTHLY AVERAGE RAINFALL CHART
+
+    const monthlyCanvas = document.getElementById("monthlyChart");
+
+    if (monthlyCanvas) {
+
+        new Chart(monthlyCanvas, {
+            type: "bar",
+
+            data: {
+                labels: chartData.monthlyLabels,
+
+                datasets: [{
+                    label: "Average Rainfall (mm)",
+                    data: chartData.monthlyValues,
+                    backgroundColor: "#14b8a6",
+                    hoverBackgroundColor: "#5eead4",
+                    borderRadius: 6,
+                    maxBarThickness: 45
+                }]
+            },
+
+            options: {
+                ...commonOptions,
+
+                scales: {
+                    ...commonOptions.scales,
+
+                    y: {
+                        ...commonOptions.scales.y,
+
+                        title: {
+                            display: true,
+                            text: "Average Rainfall (mm)",
+                            color: textColor
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    // 2. YEARLY RAINFALL TRENDS CHART
+
+    const yearlyCanvas = document.getElementById("yearlyChart");
+
+    if (yearlyCanvas) {
+
+        new Chart(yearlyCanvas, {
+            type: "line",
+
+            data: {
+                labels: chartData.yearlyLabels,
+
+                datasets: [{
+                    label: "Total Rainfall (mm)",
+                    data: chartData.yearlyValues,
+                    borderColor: "#2dd4bf",
+                    backgroundColor: "rgba(20, 184, 166, 0.15)",
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 3,
+                    pointHoverRadius: 7,
+                    pointBackgroundColor: "#2dd4bf"
+                }]
+            },
+
+            options: {
+                ...commonOptions,
+
+                scales: {
+                    ...commonOptions.scales,
+
+                    x: {
+                        ...commonOptions.scales.x,
+
+                        ticks: {
+                            color: textColor,
+                            maxTicksLimit: 15
+                        }
+                    },
+
+                    y: {
+                        ...commonOptions.scales.y,
+
+                        title: {
+                            display: true,
+                            text: "Total Rainfall (mm)",
+                            color: textColor
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    // 3. PROVINCE-WISE LOCATION DISTRIBUTION CHART
+
+    const provinceCanvas = document.getElementById("provinceChart");
+
+    if (provinceCanvas) {
+
+        new Chart(provinceCanvas, {
+            type: "doughnut",
+
+            data: {
+                labels: chartData.provinceLabels,
+
+                datasets: [{
+                    label: "Number of Locations",
+                    data: chartData.provinceValues,
+
+                    backgroundColor: [
+                        "#14b8a6",
+                        "#0d9488",
+                        "#2dd4bf",
+                        "#0f766e"
+                    ],
+
+                    borderColor: "#111e2e",
+                    borderWidth: 3,
+                    hoverOffset: 10
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: "bottom",
+
+                        labels: {
+                            color: textColor,
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    },
+
+                    tooltip: {
+                        backgroundColor: "#192a3d",
+                        titleColor: "#ffffff",
+                        bodyColor: "#cbd5e1",
+                        padding: 12
+                    }
+                }
+            }
+        });
+    }
+
+});
+</script>
+
+{% endblock %}

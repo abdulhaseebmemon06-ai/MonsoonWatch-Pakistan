@@ -1,0 +1,69 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | MonsoonWatch Pakistan{% endblock %}
+{% block page_heading %}Dashboard Overview{% endblock %}
+
+{% block content %}
+
+<div class="welcome-section">
+    <span class="welcome-label">WELCOME TO MONSOONWATCH</span>
+    <h1>Hello, {{ user.full_name }}!</h1>
+    <p>
+        Explore historical rainfall patterns and machine learning
+        predictions for selected locations across Pakistan.
+    </p>
+</div>
+
+<div class="section-heading">
+    <h2>Application Overview</h2>
+    <p>Your rainfall analysis workspace</p>
+</div>
+
+<div class="overview-grid">
+
+    <div class="overview-card">
+        <div class="card-icon">☁</div>
+        <h3>Rainfall Prediction</h3>
+        <p>Estimate next-day rainfall using our trained Random Forest V2 model.</p>
+        <a href="/prediction">Explore Prediction →</a>
+    </div>
+
+    <div class="overview-card">
+        <div class="card-icon">◷</div>
+        <h3>Historical Analysis</h3>
+        <p>Explore historical rainfall records and seasonal patterns.</p>
+        <a href="/historical">Explore Data →</a>
+    </div>
+
+    <div class="overview-card">
+        <div class="card-icon">▥</div>
+        <h3>Model Evaluation</h3>
+        <p>Review machine learning performance and evaluation metrics.</p>
+        <a href="/evaluation">View Evaluation →</a>
+    </div>
+
+    <div class="overview-card">
+        <div class="card-icon">ⓘ</div>
+        <h3>About Project</h3>
+        <p>Learn about the dataset, methodology and model development.</p>
+        <a href="/about">Learn More →</a>
+    </div>
+
+</div>
+
+<div class="information-card">
+    <h2>About MonsoonWatch Pakistan</h2>
+    <p>
+        MonsoonWatch Pakistan is an academic Data Science project
+        designed to analyse historical rainfall data and estimate
+        next-day rainfall across selected locations in Pakistan.
+    </p>
+
+    <p class="notice">
+        Note: This application is an academic prototype, not an
+        official weather forecasting or flood-warning service.
+    </p>
+</div>
+
+{% endblock %}

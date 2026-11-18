@@ -1,0 +1,15 @@
+column,meaning,unit
+date,Observation date,YYYY-MM-DD
+location,Flood-relevant city/district point location,text
+province,Province of the location,text
+latitude,Latitude of the location,degrees
+longitude,Longitude of the location,degrees
+year,Year extracted from date,year
+month,Month extracted from date,month
+day,Day extracted from date,day
+rainfall_mm,Daily corrected precipitation/rainfall,mm/day
+temperature_c,Daily mean temperature at 2 meters,Celsius
+max_temperature_c,Daily maximum temperature at 2 meters,Celsius
+min_temperature_c,Daily minimum temperature at 2 meters,Celsius
+relative_humidity_percent,Daily relative humidity at 2 meters,percent
+wind_speed_mps,Daily wind speed at 2 meters,m/s

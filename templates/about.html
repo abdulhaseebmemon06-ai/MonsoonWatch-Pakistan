@@ -1,0 +1,1593 @@
+
+{% extends "base.html" %}
+
+{% block title %}About | MonsoonWatch Pakistan{% endblock %}
+{% block page_heading %}About MonsoonWatch{% endblock %}
+
+{% block content %}
+
+<style>
+/* ==========================================
+   MONSOONWATCH PAKISTAN - ABOUT PAGE
+========================================== */
+
+.about-page {
+    color: #e5eaf2;
+    padding-bottom: 35px;
+}
+
+/* HERO */
+
+.about-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 38px;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(45,212,191,.19), transparent 30%),
+        linear-gradient(125deg, #0d2233, #123d46 65%, #11665f);
+    border: 1px solid rgba(45,212,191,.22);
+    margin-bottom: 25px;
+}
+
+.about-hero::before {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border: 1px solid rgba(94,234,212,.13);
+    border-radius: 50%;
+    right: -80px;
+    top: -100px;
+    box-shadow:
+        0 0 0 30px rgba(94,234,212,.025),
+        0 0 0 65px rgba(94,234,212,.025);
+}
+
+.about-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+}
+
+.about-eyebrow {
+    color: #5eead4;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 17px;
+}
+
+.about-hero h1 {
+    color: #ffffff;
+    font-size: 36px;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    font-weight: 800;
+}
+
+.about-hero h1 span {
+    color: #5eead4;
+}
+
+.about-hero p {
+    color: #c4d5df;
+    max-width: 650px;
+    font-size: 14px;
+    line-height: 1.9;
+    margin: 0;
+}
+
+.about-hero-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.about-hero-label {
+    color: #99f6e4;
+    background: rgba(20,184,166,.13);
+    border: 1px solid rgba(94,234,212,.22);
+    border-radius: 30px;
+    padding: 8px 13px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* SECTION HEADINGS */
+
+.about-section {
+    margin-top: 35px;
+}
+
+.about-section-heading {
+    margin-bottom: 17px;
+}
+
+.about-section-heading .eyebrow {
+    color: #2dd4bf;
+    text-transform: uppercase;
+    letter-spacing: 1.7px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.about-section-heading h2 {
+    color: #f1f5f9;
+    font-size: 21px;
+    margin: 0 0 7px;
+}
+
+.about-section-heading p {
+    color: #94a3b8;
+    font-size: 12px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* INTRODUCTION */
+
+.about-intro {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 17px;
+}
+
+.about-card {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 16px;
+    padding: 23px;
+    min-width: 0;
+}
+
+.about-card h3 {
+    color: #f1f5f9;
+    font-size: 16px;
+    margin: 0 0 12px;
+}
+
+.about-card p {
+    color: #a8b6c8;
+    font-size: 12px;
+    line-height: 1.9;
+    margin: 0 0 12px;
+}
+
+.about-card p:last-child {
+    margin-bottom: 0;
+}
+
+.about-highlight {
+    background: linear-gradient(145deg, #123d46, #102b3b);
+    border: 1px solid rgba(45,212,191,.2);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.about-highlight .big-symbol {
+    font-size: 30px;
+    color: #5eead4;
+    margin-bottom: 15px;
+}
+
+.about-highlight h3 {
+    color: #ffffff;
+    font-size: 17px;
+    margin: 0 0 10px;
+}
+
+.about-highlight p {
+    color: #c4d5df;
+    font-size: 12px;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* PROJECT STATS */
+
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 13px;
+}
+
+.about-stat {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 14px;
+    padding: 19px;
+}
+
+.about-stat span {
+    display: block;
+    color: #94a3b8;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.about-stat strong {
+    display: block;
+    color: #5eead4;
+    font-size: 23px;
+    margin-bottom: 6px;
+}
+
+.about-stat small {
+    color: #71849b;
+    font-size: 10px;
+}
+
+/* PROBLEM AND OBJECTIVES */
+
+.about-objectives {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 14px;
+}
+
+.about-objective {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 13px;
+    padding: 18px;
+}
+
+.objective-icon {
+    flex-shrink: 0;
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: rgba(20,184,166,.12);
+    color: #5eead4;
+    font-size: 16px;
+}
+
+.about-objective h3 {
+    color: #e2e8f0;
+    font-size: 13px;
+    margin: 0 0 6px;
+}
+
+.about-objective p {
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* DATASET PROFILE */
+
+.about-dataset {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 16px;
+    padding: 23px;
+}
+
+.about-dataset-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.about-dataset-top h3 {
+    color: #f1f5f9;
+    font-size: 16px;
+    margin: 0 0 7px;
+}
+
+.about-dataset-top p {
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.about-dataset-badge {
+    color: #5eead4;
+    background: rgba(20,184,166,.12);
+    border: 1px solid rgba(45,212,191,.2);
+    border-radius: 20px;
+    padding: 7px 11px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.about-dataset-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 11px;
+}
+
+.about-dataset-item {
+    background: #192a3d;
+    border: 1px solid #2a4056;
+    border-radius: 11px;
+    padding: 15px;
+}
+
+.about-dataset-item span {
+    display: block;
+    color: #94a3b8;
+    font-size: 10px;
+    margin-bottom: 8px;
+}
+
+.about-dataset-item strong {
+    display: block;
+    color: #e2e8f0;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+.about-dataset-note {
+    border-left: 3px solid #2dd4bf;
+    padding: 12px 15px;
+    background: rgba(20,184,166,.06);
+    margin-top: 17px;
+    color: #a8b6c8;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* DATA SCIENCE WORKFLOW */
+
+.about-workflow {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0,1fr));
+    gap: 11px;
+}
+
+.workflow-step {
+    position: relative;
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 13px;
+    padding: 18px 14px;
+    min-width: 0;
+}
+
+.workflow-number {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: rgba(20,184,166,.14);
+    color: #5eead4;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.workflow-step h3 {
+    color: #e2e8f0;
+    font-size: 12px;
+    margin: 0 0 8px;
+}
+
+.workflow-step p {
+    color: #94a3b8;
+    font-size: 10px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* MODEL INFORMATION */
+
+.about-model {
+    background:
+        radial-gradient(circle at 90% 10%, rgba(45,212,191,.1), transparent 35%),
+        #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.about-model-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.about-model-header h3 {
+    color: #ffffff;
+    font-size: 18px;
+    margin: 0 0 6px;
+}
+
+.about-model-header p {
+    color: #94a3b8;
+    font-size: 11px;
+    margin: 0;
+}
+
+.about-model-tag {
+    background: rgba(20,184,166,.13);
+    border: 1px solid rgba(45,212,191,.2);
+    color: #5eead4;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.about-model-description {
+    color: #a8b6c8;
+    font-size: 12px;
+    line-height: 1.9;
+    margin-bottom: 20px;
+}
+
+.about-model-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 12px;
+}
+
+.model-metric {
+    background: #192a3d;
+    border: 1px solid #2a4056;
+    border-radius: 11px;
+    padding: 16px;
+}
+
+.model-metric span {
+    display: block;
+    color: #94a3b8;
+    font-size: 10px;
+    margin-bottom: 9px;
+}
+
+.model-metric strong {
+    color: #5eead4;
+    font-size: 20px;
+}
+
+.model-disclaimer {
+    color: #fcd34d;
+    background: rgba(245,158,11,.07);
+    border: 1px solid rgba(245,158,11,.2);
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 17px;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+/* APPLICATION FEATURES */
+
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 13px;
+}
+
+.about-feature {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 13px;
+    padding: 19px;
+    transition: .2s ease;
+}
+
+.about-feature:hover {
+    transform: translateY(-3px);
+    border-color: #2dd4bf;
+}
+
+.about-feature-icon {
+    width: 39px;
+    height: 39px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: #5eead4;
+    background: rgba(20,184,166,.12);
+    font-size: 17px;
+    margin-bottom: 14px;
+}
+
+.about-feature h3 {
+    color: #e2e8f0;
+    font-size: 13px;
+    margin: 0 0 8px;
+}
+
+.about-feature p {
+    color: #94a3b8;
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* TECHNOLOGY STACK */
+
+.about-tech-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 12px;
+}
+
+.about-tech {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.about-tech-icon {
+    flex-shrink: 0;
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: #192a3d;
+    color: #5eead4;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.about-tech strong {
+    display: block;
+    color: #e2e8f0;
+    font-size: 11px;
+}
+
+.about-tech small {
+    display: block;
+    color: #71849b;
+    font-size: 9px;
+    margin-top: 4px;
+}
+
+/* SYSTEM ARCHITECTURE */
+
+.about-architecture {
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.architecture-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.architecture-node {
+    background: #192a3d;
+    border: 1px solid #2a4056;
+    border-radius: 11px;
+    padding: 15px;
+    text-align: center;
+    min-width: 115px;
+}
+
+.architecture-node strong {
+    display: block;
+    color: #e2e8f0;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.architecture-node span {
+    color: #94a3b8;
+    font-size: 9px;
+}
+
+.architecture-arrow {
+    color: #2dd4bf;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.architecture-caption {
+    color: #71849b;
+    font-size: 10px;
+    line-height: 1.7;
+    text-align: center;
+    margin: 20px 0 0;
+}
+
+/* LIMITATIONS */
+
+.about-limitations {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 12px;
+}
+
+.about-limit {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    background: #111e2e;
+    border: 1px solid #26374b;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.about-limit-icon {
+    color: #fbbf24;
+    font-size: 15px;
+}
+
+.about-limit p {
+    color: #a8b6c8;
+    font-size: 11px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* FUTURE VISION */
+
+.about-vision {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, #102b3b, #123d46);
+    border: 1px solid rgba(45,212,191,.2);
+    border-radius: 16px;
+    padding: 27px;
+}
+
+.about-vision h2 {
+    color: #ffffff;
+    font-size: 19px;
+    margin: 0 0 10px;
+}
+
+.about-vision > p {
+    color: #c4d5df;
+    font-size: 12px;
+    line-height: 1.8;
+    max-width: 720px;
+    margin: 0 0 18px;
+}
+
+.about-vision-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.about-vision-list span {
+    background: rgba(20,184,166,.13);
+    border: 1px solid rgba(94,234,212,.2);
+    color: #99f6e4;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 10px;
+}
+
+/* FOOTER */
+
+.about-footer {
+    text-align: center;
+    padding: 25px 10px 5px;
+    color: #71849b;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.about-footer strong {
+    color: #5eead4;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1050px) {
+    .about-stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .about-workflow {
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .about-tech-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width: 750px) {
+    .about-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .about-features {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .about-dataset-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .about-model-metrics {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+    .about-hero {
+        padding: 25px 21px;
+    }
+
+    .about-hero h1 {
+        font-size: 27px;
+    }
+
+    .about-objectives,
+    .about-limitations {
+        grid-template-columns: 1fr;
+    }
+
+    .about-workflow {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+
+    .about-dataset-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-model-header,
+    .about-dataset-top {
+        flex-direction: column;
+    }
+
+    .architecture-flow {
+        flex-direction: column;
+    }
+
+    .architecture-arrow {
+        transform: rotate(90deg);
+    }
+}
+
+@media (max-width: 380px) {
+    .about-stats,
+    .about-tech-grid,
+    .about-workflow {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+<div class="about-page">
+
+    <!-- =================================
+         HERO SECTION
+    ================================== -->
+
+    <section class="about-hero">
+
+        <div class="about-hero-content">
+
+            <div class="about-eyebrow">
+                A Data Science Project for Pakistan
+            </div>
+
+            <h1>
+                Understanding Rainfall.<br>
+                <span>Exploring Patterns.</span>
+            </h1>
+
+            <p>
+                MonsoonWatch Pakistan is a machine learning-based rainfall
+                analysis and forecasting platform developed to explore
+                historical weather patterns across Pakistan. It combines
+                historical weather data, data analysis, and machine learning
+                to generate rainfall estimates and provide meaningful
+                insights through an interactive web application.
+            </p>
+
+            <div class="about-hero-labels">
+                <span class="about-hero-label">DATA SCIENCE</span>
+                <span class="about-hero-label">MACHINE LEARNING</span>
+                <span class="about-hero-label">PAKISTAN WEATHER DATA</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         PROJECT INTRODUCTION
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">01 / PROJECT INTRODUCTION</div>
+            <h2>What is MonsoonWatch Pakistan?</h2>
+            <p>
+                Bringing historical weather data and machine learning
+                together in one interactive platform.
+            </p>
+        </div>
+
+        <div class="about-intro">
+
+            <div class="about-card">
+
+                <h3>Our Project</h3>
+
+                <p>
+                    Rainfall is an important part of Pakistan's climate,
+                    particularly during the monsoon season. Understanding
+                    how rainfall changes over time can help researchers
+                    and students explore weather patterns and seasonal
+                    variations.
+                </p>
+
+                <p>
+                    MonsoonWatch Pakistan was developed as a Data Science
+                    project to study these patterns using historical
+                    daily weather observations. The project follows a
+                    complete machine learning workflow, from dataset
+                    preparation and exploratory analysis to model
+                    training, evaluation, and web application development.
+                </p>
+
+                <p>
+                    The platform provides historical visualizations,
+                    rainfall prediction functionality, model evaluation
+                    results, and information about the underlying
+                    dataset and methodology.
+                </p>
+
+            </div>
+
+            <div class="about-highlight">
+
+                <div class="big-symbol">⌁</div>
+
+                <h3>Our Core Idea</h3>
+
+                <p>
+                    Transform historical weather observations into
+                    understandable information and explore how machine
+                    learning can be applied to rainfall estimation
+                    in Pakistan.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         PROJECT SNAPSHOT
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">02 / PROJECT AT A GLANCE</div>
+            <h2>Project Snapshot</h2>
+            <p>Some key facts about the dataset and machine learning model.</p>
+        </div>
+
+        <div class="about-stats">
+
+            <div class="about-stat">
+                <span>Historical Records</span>
+                <strong>365,574</strong>
+                <small>Daily weather observations</small>
+            </div>
+
+            <div class="about-stat">
+                <span>Weather Locations</span>
+                <strong>22</strong>
+                <small>Coordinate-based locations</small>
+            </div>
+
+            <div class="about-stat">
+                <span>Provinces</span>
+                <strong>4</strong>
+                <small>Across Pakistan</small>
+            </div>
+
+            <div class="about-stat">
+                <span>Model Type</span>
+                <strong>RF V2</strong>
+                <small>Random Forest Regressor</small>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         PROBLEM AND OBJECTIVES
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">03 / PURPOSE</div>
+            <h2>The Problem We Explore</h2>
+            <p>
+                Understanding historical rainfall behaviour through
+                data-driven analysis.
+            </p>
+        </div>
+
+        <div class="about-card" style="margin-bottom:15px;">
+
+            <p>
+                Rainfall patterns vary across different regions and
+                months. Historical observations can be difficult to
+                interpret when they are stored only as large datasets.
+                This project explores how data science techniques can
+                organize, visualize, and model this information in
+                a more accessible way.
+            </p>
+
+        </div>
+
+        <div class="about-objectives">
+
+            <div class="about-objective">
+                <div class="objective-icon">01</div>
+                <div>
+                    <h3>Historical Analysis</h3>
+                    <p>
+                        Explore monthly and yearly rainfall patterns
+                        using historical weather observations.
+                    </p>
+                </div>
+            </div>
+
+            <div class="about-objective">
+                <div class="objective-icon">02</div>
+                <div>
+                    <h3>Data Preparation</h3>
+                    <p>
+                        Understand and prepare weather data for
+                        machine learning experiments.
+                    </p>
+                </div>
+            </div>
+
+            <div class="about-objective">
+                <div class="objective-icon">03</div>
+                <div>
+                    <h3>Rainfall Estimation</h3>
+                    <p>
+                        Develop a regression model to estimate
+                        rainfall amounts from weather-related inputs.
+                    </p>
+                </div>
+            </div>
+
+            <div class="about-objective">
+                <div class="objective-icon">04</div>
+                <div>
+                    <h3>Model Evaluation</h3>
+                    <p>
+                        Measure model performance and identify
+                        areas that require improvement.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         DATASET PROFILE
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">04 / DATA FOUNDATION</div>
+            <h2>Inside the Dataset</h2>
+            <p>
+                The historical observations used for analysis and
+                model development.
+            </p>
+        </div>
+
+        <div class="about-dataset">
+
+            <div class="about-dataset-top">
+                <div>
+                    <h3>Pakistan Daily Historical Weather Dataset</h3>
+                    <p>
+                        A coordinate-based daily weather dataset
+                        covering multiple locations in Pakistan.
+                    </p>
+                </div>
+
+                <span class="about-dataset-badge">CSV DATASET</span>
+            </div>
+
+            <div class="about-dataset-grid">
+
+                <div class="about-dataset-item">
+                    <span>First Observation</span>
+                    <strong>01 Jan 1981</strong>
+                </div>
+
+                <div class="about-dataset-item">
+                    <span>Last Observation</span>
+                    <strong>30 Jun 2026</strong>
+                </div>
+
+                <div class="about-dataset-item">
+                    <span>Total Records</span>
+                    <strong>365,574</strong>
+                </div>
+
+                <div class="about-dataset-item">
+                    <span>Total Locations</span>
+                    <strong>22</strong>
+                </div>
+
+                <div class="about-dataset-item">
+                    <span>Provinces</span>
+                    <strong>4</strong>
+                </div>
+
+                <div class="about-dataset-item">
+                    <span>Dataset Columns</span>
+                    <strong>14</strong>
+                </div>
+
+            </div>
+
+            <div class="about-dataset-note">
+                <strong>Data coverage:</strong>
+                The dataset contains observations from Balochistan,
+                Khyber Pakhtunkhwa, Punjab, and Sindh. Its variables
+                include rainfall, temperature, humidity, wind speed,
+                location coordinates, and date-related information.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         DATA SCIENCE WORKFLOW
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">05 / DEVELOPMENT METHODOLOGY</div>
+            <h2>From Raw Data to a Working Application</h2>
+            <p>
+                The major stages followed during the development
+                of this Data Science project.
+            </p>
+        </div>
+
+        <div class="about-workflow">
+
+            <div class="workflow-step">
+                <div class="workflow-number">01</div>
+                <h3>Data Collection</h3>
+                <p>
+                    Working with historical daily weather observations
+                    stored in a CSV dataset.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-number">02</div>
+                <h3>Data Preparation</h3>
+                <p>
+                    Inspecting the data, checking missing values,
+                    duplicates, and preparing model inputs.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-number">03</div>
+                <h3>Exploratory Analysis</h3>
+                <p>
+                    Studying rainfall distributions, monthly patterns,
+                    yearly trends, and location coverage.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-number">04</div>
+                <h3>Model Training</h3>
+                <p>
+                    Training a Random Forest regression model
+                    using historical weather data.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="workflow-number">05</div>
+                <h3>Evaluation & Deployment</h3>
+                <p>
+                    Evaluating predictions and integrating the model
+                    into a FastAPI web application.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         MACHINE LEARNING MODEL
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">06 / MACHINE LEARNING</div>
+            <h2>The Prediction Engine</h2>
+            <p>
+                A supervised machine learning regression approach
+                for rainfall estimation.
+            </p>
+        </div>
+
+        <div class="about-model">
+
+            <div class="about-model-header">
+                <div>
+                    <h3>Random Forest Regressor – V2</h3>
+                    <p>Ensemble-based supervised learning model</p>
+                </div>
+
+                <span class="about-model-tag">MODEL V2</span>
+            </div>
+
+            <div class="about-model-description">
+                Random Forest is an ensemble learning algorithm that
+                combines predictions from multiple decision trees.
+                In this project, it is used as a regression model to
+                estimate rainfall amounts. The trained model is saved
+                and integrated into the application for prediction
+                requests.
+            </div>
+
+            <div class="about-model-metrics">
+
+                <div class="model-metric">
+                    <span>Mean Absolute Error</span>
+                    <strong>1.8871 mm</strong>
+                </div>
+
+                <div class="model-metric">
+                    <span>Root Mean Squared Error</span>
+                    <strong>8.6384 mm</strong>
+                </div>
+
+                <div class="model-metric">
+                    <span>R² Score</span>
+                    <strong>0.1161</strong>
+                </div>
+
+            </div>
+
+            <div class="model-disclaimer">
+                <strong>Performance note:</strong>
+                These metrics come from the historical test dataset.
+                The model performs better than the Mean Baseline on
+                the overall evaluation metrics, but its R² score is
+                modest and it significantly underestimates heavy
+                rainfall. It requires further improvement.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         APPLICATION FEATURES
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">07 / PLATFORM CAPABILITIES</div>
+            <h2>What Can You Explore?</h2>
+            <p>
+                The main modules available inside MonsoonWatch Pakistan.
+            </p>
+        </div>
+
+        <div class="about-features">
+
+            <div class="about-feature">
+                <div class="about-feature-icon">⌂</div>
+                <h3>Interactive Dashboard</h3>
+                <p>
+                    Access the main project overview and navigate
+                    between the application's modules.
+                </p>
+            </div>
+
+            <div class="about-feature">
+                <div class="about-feature-icon">⌁</div>
+                <h3>Rainfall Prediction</h3>
+                <p>
+                    Submit weather-related inputs to obtain a rainfall
+                    estimate from the trained machine learning model.
+                </p>
+            </div>
+
+            <div class="about-feature">
+                <div class="about-feature-icon">▥</div>
+                <h3>Historical Analysis</h3>
+                <p>
+                    Explore monthly average rainfall, yearly rainfall
+                    trends, and province-wise location distribution.
+                </p>
+            </div>
+
+            <div class="about-feature">
+                <div class="about-feature-icon">◈</div>
+                <h3>Model Evaluation</h3>
+                <p>
+                    Review model metrics, baseline comparisons,
+                    and heavy-rainfall prediction performance.
+                </p>
+            </div>
+
+            <div class="about-feature">
+                <div class="about-feature-icon">♙</div>
+                <h3>User Authentication</h3>
+                <p>
+                    Register and log in to access the protected
+                    application modules.
+                </p>
+            </div>
+
+            <div class="about-feature">
+                <div class="about-feature-icon">▤</div>
+                <h3>Dataset Insights</h3>
+                <p>
+                    Understand the historical data coverage,
+                    variables, and limitations of the dataset.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         TECHNOLOGY STACK
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">08 / TECHNOLOGY</div>
+            <h2>Built With</h2>
+            <p>
+                The technologies and tools used to develop the platform.
+            </p>
+        </div>
+
+        <div class="about-tech-grid">
+
+            <div class="about-tech">
+                <div class="about-tech-icon">Py</div>
+                <div>
+                    <strong>Python</strong>
+                    <small>Core programming language</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">Fa</div>
+                <div>
+                    <strong>FastAPI</strong>
+                    <small>Backend web framework</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">Sk</div>
+                <div>
+                    <strong>Scikit-learn</strong>
+                    <small>Machine learning</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">Pd</div>
+                <div>
+                    <strong>Pandas</strong>
+                    <small>Data manipulation</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">Np</div>
+                <div>
+                    <strong>NumPy</strong>
+                    <small>Numerical computing</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">JS</div>
+                <div>
+                    <strong>JavaScript</strong>
+                    <small>Interactive functionality</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">Ch</div>
+                <div>
+                    <strong>Chart.js</strong>
+                    <small>Data visualizations</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">Sq</div>
+                <div>
+                    <strong>SQLite</strong>
+                    <small>Application database</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">HT</div>
+                <div>
+                    <strong>HTML5</strong>
+                    <small>Web page structure</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">CS</div>
+                <div>
+                    <strong>CSS3</strong>
+                    <small>Responsive interface design</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">J2</div>
+                <div>
+                    <strong>Jinja2</strong>
+                    <small>Dynamic HTML templates</small>
+                </div>
+            </div>
+
+            <div class="about-tech">
+                <div class="about-tech-icon">JB</div>
+                <div>
+                    <strong>Joblib</strong>
+                    <small>Model serialization</small>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         SYSTEM WORKFLOW
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">09 / APPLICATION ARCHITECTURE</div>
+            <h2>How the Platform Works</h2>
+            <p>
+                A simplified view of the relationship between
+                the user interface, backend, dataset, and model.
+            </p>
+        </div>
+
+        <div class="about-architecture">
+
+            <div class="architecture-flow">
+
+                <div class="architecture-node">
+                    <strong>User</strong>
+                    <span>Application interaction</span>
+                </div>
+
+                <div class="architecture-arrow">→</div>
+
+                <div class="architecture-node">
+                    <strong>Web Interface</strong>
+                    <span>HTML · CSS · JS</span>
+                </div>
+
+                <div class="architecture-arrow">→</div>
+
+                <div class="architecture-node">
+                    <strong>FastAPI</strong>
+                    <span>Backend processing</span>
+                </div>
+
+                <div class="architecture-arrow">→</div>
+
+                <div class="architecture-node">
+                    <strong>Data & Model</strong>
+                    <span>CSV · Random Forest</span>
+                </div>
+
+            </div>
+
+            <p class="architecture-caption">
+                Historical analysis uses the dataset to prepare visualizations.
+                Prediction requests use the trained model through the backend.
+                Application user information is managed through the database.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         LIMITATIONS
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-section-heading">
+            <div class="eyebrow">10 / TRANSPARENCY</div>
+            <h2>Limitations & Responsible Use</h2>
+            <p>
+                Understanding what the current version can and cannot do
+                is an important part of this project.
+            </p>
+        </div>
+
+        <div class="about-limitations">
+
+            <div class="about-limit">
+                <span class="about-limit-icon">⚠</span>
+                <p>
+                    <strong>Not a flood classifier:</strong>
+                    The model estimates rainfall amounts. It does not
+                    identify or predict verified flood events.
+                </p>
+            </div>
+
+            <div class="about-limit">
+                <span class="about-limit-icon">⚠</span>
+                <p>
+                    <strong>No live weather connection:</strong>
+                    The current application does not automatically
+                    retrieve live weather observations.
+                </p>
+            </div>
+
+            <div class="about-limit">
+                <span class="about-limit-icon">⚠</span>
+                <p>
+                    <strong>Heavy rainfall limitation:</strong>
+                    The current model significantly underestimates
+                    heavy rainfall events.
+                </p>
+            </div>
+
+            <div class="about-limit">
+                <span class="about-limit-icon">⚠</span>
+                <p>
+                    <strong>Geographical coverage:</strong>
+                    The dataset contains 22 coordinate-based locations,
+                    not complete coverage of every district in Pakistan.
+                </p>
+            </div>
+
+            <div class="about-limit">
+                <span class="about-limit-icon">⚠</span>
+                <p>
+                    <strong>Historical data:</strong>
+                    The dataset currently ends on 30 June 2026.
+                </p>
+            </div>
+
+            <div class="about-limit">
+                <span class="about-limit-icon">⚠</span>
+                <p>
+                    <strong>Research application:</strong>
+                    Results are intended for educational analysis and
+                    experimentation, not official weather warnings.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         FUTURE VISION
+    ================================== -->
+
+    <section class="about-section">
+
+        <div class="about-vision">
+
+            <div class="about-eyebrow">11 / LOOKING AHEAD</div>
+
+            <h2>Where Can MonsoonWatch Go Next?</h2>
+
+            <p>
+                The current version establishes a foundation for
+                historical rainfall analysis and machine learning
+                experimentation. Future development could focus on
+                improving extreme-rainfall predictions, expanding
+                geographical coverage, and integrating additional
+                weather data sources.
+            </p>
+
+            <div class="about-vision-list">
+                <span>Improved ML Models</span>
+                <span>Extreme Rainfall Modelling</span>
+                <span>Expanded Location Coverage</span>
+                <span>Live Weather Integration</span>
+                <span>Advanced Visual Analytics</span>
+                <span>Historical Data Expansion</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="about-footer">
+        <strong>MonsoonWatch Pakistan</strong><br>
+        A Data Science Project focused on historical rainfall analysis
+        and machine learning.<br>
+        Exploring weather patterns through data.
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}MonsoonWatch Pakistan{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">MW</div>
+            <div>
+                <h2>MonsoonWatch</h2>
+                <span>PAKISTAN</span>
+            </div>
+        </div>
+
+        <div class="nav-heading">MAIN MENU</div>
+
+       <nav class="navigation">
+    <a href="/dashboard" class="nav-link {% if request.url.path == '/dashboard' %}active{% endif %}">
+        <span>▦</span> Overview
+    </a>
+
+    <a href="/prediction" class="nav-link {% if request.url.path == '/prediction' %}active{% endif %}">
+        <span>☁</span> Rainfall Prediction
+    </a>
+
+    <a href="/historical" class="nav-link {% if request.url.path == '/historical' %}active{% endif %}">
+        <span>◷</span> Historical Analysis
+    </a>
+
+    <a href="/evaluation" class="nav-link {% if request.url.path == '/evaluation' %}active{% endif %}">
+        <span>▥</span> Model Evaluation
+    </a>
+
+    <a href="/about" class="nav-link {% if request.url.path == '/about' %}active{% endif %}">
+        <span>ⓘ</span> About Project
+    </a>
+</nav>
+
+        <div class="sidebar-bottom">
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                Academic Prototype
+            </div>
+            <a href="/logout" class="logout-link">↪ Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <span class="topbar-label">PAKISTAN RAINFALL MONITORING</span>
+                <h3>{% block page_heading %}Overview{% endblock %}</h3>
+            </div>
+
+            <div class="user-info">
+                <div class="user-avatar">
+                    {{ user.full_name[0] | upper }}
+                </div>
+                <div>
+                    <strong>{{ user.full_name }}</strong>
+                    <span>Registered User</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="page-content">
+            {% block content %}{% endblock %}
+        </section>
+
+        <footer class="footer">
+            MonsoonWatch Pakistan · Academic Data Science Project
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>
